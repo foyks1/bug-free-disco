@@ -1,0 +1,9 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    {% for cat in categories %}
+        <a href="/getProduct/{{ cat.getId }}"> {{ cat.getName }}, {{ cat.getTotalProducts }} </a><br>
+    {% endfor %}
+
+{% endblock %}

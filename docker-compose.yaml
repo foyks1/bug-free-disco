@@ -1,0 +1,69 @@
+version: '3.7'
+
+services:
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: always
+    tty: true
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - db
+
+  web:
+    build: php
+    volumes:
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+    working_dir: ${APP_PATH_CONTAINER}
+    restart: always
+    networks:
+      - db
+
+  database:
+    image: mysql:8.0.26
+    container_name: database
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Xfgftdf17
+    volumes:
+      - ${DB_PATH_HOST}:${APP_DB_CONTAINER}
+    networks:
+      - db
+
+  adminer:
+    image: adminer:4.8.1
+    restart: always
+    ports:
+      - "6080:8080"
+    networks:
+      - db
+
+  composer:
+    image: composer:latest
+    container_name: composer
+    volumes:
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+    working_dir: ${APP_PATH_CONTAINER}
+    command: composer install
+
+  redis:
+    image: redis:6.2.6
+    restart: always
+    ports:
+      - 6379:6379
+    networks:
+      - db
+    command: redis-server
+
+networks:
+  db:
+    driver: bridge

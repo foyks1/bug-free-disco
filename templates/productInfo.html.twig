@@ -1,0 +1,10 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+        <div>
+            {{ product.getName }}, {{ product.getPrice }} <img height="200px" width="200px" src=" {{ product.getPicture }}" alt="Italian Trulli">
+            {{ product.getAnnotation }}
+        </div>
+
+{% endblock %}

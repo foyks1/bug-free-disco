@@ -1,0 +1,11 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    {% for product in products %}
+        <div>
+            <a href="/getProduct/info/{{ product.getId }}"> {{ product.getName }}, {{ product.getPrice }} <img height="200px" width="200px" src=" {{ product.getPicture }}" alt="Italian Trulli"></a>
+        </div>
+    {% endfor %}
+
+{% endblock %}
